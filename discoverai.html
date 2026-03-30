@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DiscoverAI — Discover the Best AI Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06060a;--surface:#0e0e16;--surface2:#15151f;--surface3:#1c1c2a;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--text:#e8e8f0;--muted:#7070a0;--muted2:#9090b8;--accent:#7c6bff;--accent2:#00e5c0;--accent3:#ff6b9d;--accent4:#ffc65c;--glow:rgba(124,107,255,0.15);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(6,6,10,.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-.5px;cursor:pointer;user-select:none;flex-shrink:0;}
+.logo .d{color:var(--accent)}.logo .dot{color:var(--accent2)}
+nav ul{list-style:none;display:flex;gap:4px;align-items:center;}
+nav ul a{text-decoration:none;color:var(--muted);font-size:.86rem;font-weight:500;padding:6px 11px;border-radius:8px;transition:color .2s,background .2s;cursor:pointer;white-space:nowrap;}
+nav ul a:hover,nav ul a.active{color:var(--text);background:rgba(255,255,255,.06);}
+.nav-fav-btn{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);padding:6px 13px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.83rem;font-weight:500;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.nav-fav-btn:hover{background:rgba(255,255,255,.09);}
+.fav-badge{background:var(--accent3);color:#fff;font-size:.63rem;font-weight:700;padding:1px 5px;border-radius:100px;min-width:16px;text-align:center;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s;}
+
+/* TICKER */
+.news-ticker{background:var(--surface);border-bottom:1px solid var(--border);padding:9px 0;overflow:hidden;white-space:nowrap;}
+.ticker-track{display:inline-block;animation:ticker 50s linear infinite;}
+.ticker-track:hover{animation-play-state:paused;}
+.ticker-item{margin:0 36px;font-size:.79rem;color:var(--muted);}
+.ticker-item strong{color:var(--accent2);}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* PAGES */
+.page{display:none;animation:fadeIn .3s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{position:relative;padding:88px 40px 68px;text-align:center;overflow:hidden;}
+.hero-orbs{position:absolute;inset:0;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.22;animation:drift 14s ease-in-out infinite alternate;}
+.orb1{width:520px;height:520px;background:var(--accent);top:-200px;left:-120px;}
+.orb2{width:420px;height:420px;background:var(--accent2);top:-60px;right:-100px;animation-delay:-5s;}
+.orb3{width:320px;height:320px;background:var(--accent3);bottom:-140px;left:48%;animation-delay:-9s;}
+@keyframes drift{from{transform:translate(0,0)scale(1)}to{transform:translate(28px,18px)scale(1.07)}}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(124,107,255,.1);border:1px solid rgba(124,107,255,.3);padding:5px 15px;border-radius:100px;font-size:.77rem;font-weight:500;color:#a89fff;margin-bottom:26px;letter-spacing:.3px;}
+.badge-dot{width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,5.5vw,4.5rem);font-weight:800;line-height:1.06;letter-spacing:-2px;margin-bottom:20px;max-width:840px;margin-left:auto;margin-right:auto;}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:1rem;color:var(--muted);max-width:560px;margin:0 auto 36px;line-height:1.75;font-weight:300;}
+.stats-row{display:flex;justify-content:center;gap:28px;margin-top:14px;flex-wrap:wrap;}
+.stat{font-size:.8rem;color:var(--muted);}.stat strong{color:var(--text);font-weight:600;}
+
+/* SEARCH */
+.search-wrap{max-width:620px;margin:0 auto 18px;position:relative;}
+.search-wrap input{width:100%;padding:14px 120px 14px 48px;background:var(--surface);border:1px solid var(--border);border-radius:13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s,box-shadow .2s;}
+.search-wrap input:focus{border-color:rgba(124,107,255,.5);box-shadow:0 0 0 3px rgba(124,107,255,.1);}
+.search-wrap input::placeholder{color:var(--muted);}
+.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.95rem;pointer-events:none;}
+.search-clear{position:absolute;right:108px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:4px;display:none;}
+.search-clear.vis{display:block;}
+.search-btn{position:absolute;right:7px;top:50%;transform:translateY(-50%);background:var(--accent);border:none;color:#fff;padding:8px 20px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.85rem;cursor:pointer;transition:opacity .2s;}
+.search-btn:hover{opacity:.85;}
+.sugg-box{position:absolute;top:calc(100% + 5px);left:0;right:0;background:var(--surface2);border:1px solid var(--border2);border-radius:11px;overflow:hidden;z-index:50;display:none;}
+.sugg-box.show{display:block;}
+.sugg-item{padding:9px 14px;font-size:.85rem;cursor:pointer;color:var(--muted2);transition:background .15s,color .15s;display:flex;align-items:center;gap:10px;}
+.sugg-item:hover{background:var(--surface3);color:var(--text);}
+
+/* SECTION */
+.section{padding:52px 40px;max-width:1300px;margin:0 auto;}
+.section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px;flex-wrap:wrap;gap:10px;}
+.section-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;letter-spacing:-.4px;}
+.see-all{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:500;cursor:pointer;}
+.see-all:hover{opacity:.7;}
+.divider{height:1px;background:var(--border);max-width:1300px;margin:0 auto;}
+
+/* CATS */
+.cats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:9px;}
+.cat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:17px 13px;cursor:pointer;transition:border-color .2s,transform .2s;text-align:center;position:relative;overflow:hidden;}
+.cat-card::after{content:'';position:absolute;inset:0;background:var(--glow);opacity:0;transition:opacity .2s;}
+.cat-card:hover{border-color:rgba(124,107,255,.4);transform:translateY(-2px);}
+.cat-card:hover::after{opacity:1;}
+.cat-card.active-cat{border-color:var(--accent);background:rgba(124,107,255,.08);}
+.cat-icon{font-size:1.65rem;margin-bottom:7px;display:block;}
+.cat-name{font-size:.81rem;font-weight:500;}
+.cat-count{font-size:.7rem;color:var(--muted);margin-top:2px;}
+
+/* FILTERS */
+.filter-bar{display:flex;align-items:center;gap:7px;margin-bottom:22px;flex-wrap:wrap;}
+.filter-tab{padding:6px 15px;border-radius:100px;font-size:.8rem;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;}
+.filter-tab:hover{color:var(--text);border-color:rgba(255,255,255,.2);}
+.filter-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.sort-select{margin-left:auto;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;padding:6px 11px;border-radius:8px;outline:none;cursor:pointer;}
+.sort-select option{background:var(--surface2);}
+.price-toggles{display:flex;gap:5px;}
+.price-toggle{padding:5px 12px;border-radius:100px;font-size:.76rem;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .2s;white-space:nowrap;}
+.price-toggle:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+.price-toggle.af{background:rgba(0,229,192,.15);color:var(--accent2);border-color:rgba(0,229,192,.3);}
+.price-toggle.ap{background:rgba(124,107,255,.15);color:var(--accent);border-color:rgba(124,107,255,.3);}
+.price-toggle.afm{background:rgba(255,198,92,.12);color:var(--accent4);border-color:rgba(255,198,92,.3);}
+
+/* TOOL CARDS */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:13px;}
+.tool-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:19px;cursor:pointer;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;overflow:hidden;}
+.tool-card:hover{border-color:rgba(124,107,255,.35);transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,0,0,.4);}
+.fav-btn{position:absolute;top:13px;right:13px;background:rgba(255,255,255,.04);border:1px solid var(--border);width:29px;height:29px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.82rem;cursor:pointer;transition:background .2s,border-color .2s;z-index:2;}
+.fav-btn:hover,.fav-btn.on{background:rgba(255,107,157,.15);border-color:rgba(255,107,157,.4);}
+.fav-btn.on{color:var(--accent3);}
+.tool-header{display:flex;align-items:flex-start;gap:11px;margin-bottom:11px;padding-right:34px;}
+.tool-logo{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.28rem;flex-shrink:0;}
+.tool-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:1px;letter-spacing:-.1px;}
+.tool-by{font-size:.72rem;color:var(--muted);font-weight:300;}
+.tool-desc{font-size:.82rem;color:var(--muted2);line-height:1.6;margin-bottom:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.tool-footer{display:flex;align-items:center;justify-content:space-between;gap:7px;}
+.tags{display:flex;gap:4px;flex-wrap:wrap;}
+.tag{font-size:.68rem;padding:2px 8px;border-radius:100px;font-weight:500;}
+.t-pu{background:rgba(124,107,255,.15);color:#a89fff;}
+.t-te{background:rgba(0,229,192,.1);color:#00e5c0;}
+.t-pi{background:rgba(255,107,157,.1);color:#ff6b9d;}
+.t-ye{background:rgba(255,198,92,.1);color:#ffc65c;}
+.t-gr{background:rgba(255,255,255,.06);color:var(--muted);}
+.badge{font-size:.66rem;font-weight:600;padding:2px 8px;border-radius:100px;letter-spacing:.15px;white-space:nowrap;}
+.badge.free{background:rgba(0,229,192,.12);color:var(--accent2);}
+.badge.paid{background:rgba(124,107,255,.12);color:var(--accent);}
+.badge.freemium{background:rgba(255,198,92,.12);color:var(--accent4);}
+.tool-rating{font-size:.72rem;color:var(--accent4);font-weight:600;}
+.no-results{text-align:center;padding:60px 20px;color:var(--muted);}
+.no-results .nr-icon{font-size:2.8rem;margin-bottom:10px;}
+.no-results h3{font-family:'Syne',sans-serif;font-size:1.1rem;margin-bottom:6px;color:var(--text);}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:center;gap:5px;margin-top:34px;flex-wrap:wrap;}
+.pg-btn{background:var(--surface);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.82rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.pg-btn:hover{border-color:rgba(255,255,255,.2);color:var(--text);}
+.pg-btn.cur{background:var(--accent);border-color:var(--accent);color:#fff;}
+.pg-btn:disabled{opacity:.3;cursor:not-allowed;}
+.pg-dots{font-size:.82rem;color:var(--muted);padding:0 4px;}
+
+/* TOP 10 */
+.top10-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:9px;}
+.top-item{display:flex;align-items:center;gap:11px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:11px;cursor:pointer;transition:border-color .2s,background .2s;}
+.top-item:hover{border-color:rgba(124,107,255,.35);background:var(--surface2);}
+.rank{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--muted);width:24px;text-align:center;flex-shrink:0;}
+.rank.g{color:#ffc65c;}.rank.s{color:#b0b0c8;}.rank.b{color:#cd7f32;}
+.top-logo{width:35px;height:35px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex-shrink:0;}
+.top-info{flex:1;}.top-name{font-weight:600;font-size:.88rem;}.top-cat{font-size:.7rem;color:var(--muted);}
+.top-score{font-size:.73rem;font-weight:700;color:var(--accent2);background:rgba(0,229,192,.08);padding:3px 8px;border-radius:100px;white-space:nowrap;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:20px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;padding:30px;position:relative;animation:mIn .25s ease;}
+@keyframes mIn{from{opacity:0;transform:scale(.95)translateY(10px)}to{opacity:1;transform:scale(1)translateY(0)}}
+.modal-close{position:absolute;top:15px;right:15px;background:rgba(255,255,255,.06);border:1px solid var(--border);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;transition:background .2s;}
+.modal-close:hover{background:rgba(255,255,255,.12);}
+.modal-header{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;padding-right:36px;}
+.modal-logo{width:56px;height:56px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;flex-shrink:0;}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:800;letter-spacing:-.3px;}
+.modal-by{font-size:.83rem;color:var(--muted);margin-top:2px;}
+.modal-badges{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap;}
+.modal-desc{font-size:.9rem;color:var(--muted2);line-height:1.75;margin-bottom:20px;}
+.modal-tags-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:20px;}
+.modal-label{font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:9px;}
+.modal-features{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:20px;}
+.modal-features li{display:flex;align-items:flex-start;gap:7px;font-size:.85rem;color:var(--muted2);}
+.modal-features li::before{content:'✓';color:var(--accent2);font-weight:700;flex-shrink:0;margin-top:1px;}
+.modal-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.meta-box{background:var(--surface2);border-radius:9px;padding:11px 13px;}
+.meta-lbl{font-size:.7rem;color:var(--muted);margin-bottom:2px;}
+.meta-val{font-size:.88rem;font-weight:600;}
+.modal-actions{display:flex;gap:9px;flex-wrap:wrap;}
+.btn-visit{background:var(--accent);color:#fff;border:none;padding:10px 24px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;transition:opacity .2s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
+.btn-visit:hover{opacity:.85;}
+.btn-fav-m{background:transparent;border:1px solid var(--border2);color:var(--text);padding:10px 18px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.88rem;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:5px;}
+.btn-fav-m:hover,.btn-fav-m.on{background:rgba(255,107,157,.1);border-color:rgba(255,107,157,.4);color:var(--accent3);}
+
+/* SUBMIT */
+.submit-page{max-width:620px;margin:0 auto;padding:56px 40px;}
+.submit-page h2{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;letter-spacing:-.5px;margin-bottom:7px;}
+.sub-p{color:var(--muted);margin-bottom:32px;line-height:1.65;font-size:.92rem;}
+.form-group{margin-bottom:16px;}
+.form-label{display:block;font-size:.8rem;font-weight:600;color:var(--muted2);margin-bottom:5px;letter-spacing:.1px;}
+.form-input,.form-textarea,.form-select{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:9px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.88rem;padding:10px 13px;outline:none;transition:border-color .2s,box-shadow .2s;}
+.form-input:focus,.form-textarea:focus,.form-select:focus{border-color:rgba(124,107,255,.5);box-shadow:0 0 0 3px rgba(124,107,255,.1);}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+.form-textarea{resize:vertical;min-height:95px;}
+.form-select option{background:var(--surface2);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.submit-btn{background:var(--accent);color:#fff;border:none;padding:12px 28px;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;transition:opacity .2s,transform .1s;width:100%;margin-top:4px;}
+.submit-btn:hover{opacity:.87;}
+.submit-btn:active{transform:scale(.99);}
+.s-success{display:none;text-align:center;padding:40px 20px;}
+.s-success .si{font-size:3rem;margin-bottom:12px;}
+.s-success h3{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:700;margin-bottom:7px;}
+.s-success p{color:var(--muted);font-size:.88rem;}
+
+/* FAVORITES */
+.fav-empty{text-align:center;padding:80px 20px;}
+.fav-empty .ei{font-size:3rem;margin-bottom:12px;}
+.fav-empty h3{font-family:'Syne',sans-serif;font-size:1.25rem;margin-bottom:7px;}
+.fav-empty p{color:var(--muted);font-size:.88rem;}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,rgba(124,107,255,.1),rgba(0,229,192,.07));border:1px solid rgba(124,107,255,.2);border-radius:20px;padding:52px 44px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.cta-text h2{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;letter-spacing:-.4px;margin-bottom:6px;}
+.cta-text p{color:var(--muted);font-size:.9rem;}
+.cta-btns{display:flex;gap:9px;flex-wrap:wrap;}
+.btn-pr{background:var(--accent);color:#fff;border:none;padding:11px 24px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;transition:opacity .2s;}
+.btn-pr:hover{opacity:.85;}
+.btn-out{background:transparent;color:var(--text);border:1px solid var(--border2);padding:11px 24px;border-radius:9px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.88rem;cursor:pointer;transition:border-color .2s;}
+.btn-out:hover{border-color:rgba(255,255,255,.25);}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;max-width:1300px;margin:0 auto;}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;}
+.footer-links{display:flex;gap:20px;list-style:none;flex-wrap:wrap;}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:.8rem;transition:color .2s;cursor:pointer;}
+.footer-links a:hover{color:var(--text);}
+.footer-copy{font-size:.76rem;color:var(--muted);}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%)translateY(100px);background:var(--surface2);border:1px solid var(--border2);color:var(--text);padding:10px 18px;border-radius:9px;font-size:.84rem;z-index:1000;transition:transform .3s ease;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.toast.show{transform:translateX(-50%)translateY(0);}
+
+/* RESPONSIVE */
+@media(max-width:820px){
+  nav{padding:0 18px;}
+  nav ul{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;background:rgba(6,6,10,.97);border-bottom:1px solid var(--border);padding:10px 0;gap:2px;}
+  nav ul.open{display:flex;}
+  nav ul a{padding:9px 18px;border-radius:0;}
+  .hamburger{display:flex;}
+  .hero{padding:56px 18px 46px;}
+  .section{padding:32px 18px;}
+  .submit-page{padding:36px 18px;}
+  .cta-box{padding:32px 22px;flex-direction:column;}
+  footer{padding:22px 18px;flex-direction:column;align-items:flex-start;}
+  .cats-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));}
+  .form-row{grid-template-columns:1fr;}
+  .filter-bar{gap:5px;}
+  .sort-select{margin-left:0;width:100%;}
+  h1{letter-spacing:-1px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="showPage('home')"><span class="d">Discover</span>AI<span class="dot">.</span></div>
+  <ul id="navLinks">
+    <li><a onclick="showPage('home')" data-page="home" class="active">Directory</a></li>
+    <li><a onclick="showPage('top10')" data-page="top10">Top 10</a></li>
+    <li><a onclick="showPage('free')" data-page="free">Free Tools</a></li>
+    <li><a onclick="showPage('submit')" data-page="submit">Submit Tool</a></li>
+    <li><button class="nav-fav-btn" onclick="showPage('favorites')">♥ Saved <span class="fav-badge" id="favBadge">0</span></button></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- TICKER -->
+<div class="news-ticker"><div class="ticker-track" id="tickerTrack"></div></div>
+
+<!-- ========== HOME ========== -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+    <div class="hero-badge"><div class="badge-dot"></div><span id="heroCount">32+</span> AI tools · Updated daily</div>
+    <h1>Discover the <em>best AI tools</em><br>for any task</h1>
+    <p class="hero-sub">Your ultimate directory for AI tools — curated, ranked, and organized so you spend less time searching and more time building.</p>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="heroSearch" placeholder="Search tools, categories, use cases…" oninput="onSearch(this.value)" autocomplete="off" onkeydown="if(event.key==='Enter')doSearch()">
+      <button class="search-clear" id="sClear" onclick="clearSearch()">✕</button>
+      <button class="search-btn" onclick="doSearch()">Search</button>
+      <div class="sugg-box" id="suggBox"></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><strong id="statTotal">32</strong> tools</div>
+      <div class="stat"><strong>9</strong> categories</div>
+      <div class="stat"><strong id="statFree">5</strong> free</div>
+      <div class="stat"><strong>Daily</strong> updates</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CATEGORIES -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Browse Categories</h2>
+      <a class="see-all" onclick="resetAll()">View all →</a>
+    </div>
+    <div class="cats-grid" id="catsGrid"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TOOLS -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">All Tools</h2>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <span id="resCount" style="font-size:.8rem;color:var(--muted);"></span>
+        <a class="see-all" onclick="resetAll()">Reset →</a>
+      </div>
+    </div>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-tab active" onclick="setFilter(this,'all')">All</button>
+      <button class="filter-tab" onclick="setFilter(this,'writing')">Writing</button>
+      <button class="filter-tab" onclick="setFilter(this,'image')">Image</button>
+      <button class="filter-tab" onclick="setFilter(this,'coding')">Coding</button>
+      <button class="filter-tab" onclick="setFilter(this,'video')">Video</button>
+      <button class="filter-tab" onclick="setFilter(this,'productivity')">Productivity</button>
+      <button class="filter-tab" onclick="setFilter(this,'audio')">Audio</button>
+      <button class="filter-tab" onclick="setFilter(this,'research')">Research</button>
+      <button class="filter-tab" onclick="setFilter(this,'agents')">Agents</button>
+      <div class="price-toggles" style="margin-left:4px;">
+        <button class="price-toggle" id="pt-free" onclick="togglePrice('free')">Free</button>
+        <button class="price-toggle" id="pt-freemium" onclick="togglePrice('freemium')">Freemium</button>
+        <button class="price-toggle" id="pt-paid" onclick="togglePrice('paid')">Paid</button>
+      </div>
+      <select class="sort-select" onchange="setSort(this.value)">
+        <option value="featured">Featured</option>
+        <option value="rating">Top Rated</option>
+        <option value="name">A–Z</option>
+        <option value="newest">Newest</option>
+      </select>
+    </div>
+    <div class="tools-grid" id="toolsGrid"></div>
+    <div class="no-results" id="noRes" style="display:none;"><div class="nr-icon">🔍</div><h3>No tools found</h3><p>Try different keywords or reset filters</p></div>
+    <div class="pagination" id="pgBar"></div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section">
+    <div class="cta-box">
+      <div class="cta-text"><h2>Know a great AI tool?</h2><p>Submit it to the directory. We review every submission within 48 hours.</p></div>
+      <div class="cta-btns"><button class="btn-pr" onclick="showPage('submit')">Submit a Tool</button><button class="btn-out" onclick="showPage('top10')">See Top 10</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TOP 10 ========== -->
+<div class="page" id="page-top10">
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">🏆 Top 10 This Week</h2></div>
+    <div class="top10-grid" id="top10Grid"></div>
+  </div>
+  <div class="divider"></div>
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">🔥 Rising Stars</h2></div>
+    <div class="tools-grid" id="risingGrid"></div>
+  </div>
+</div>
+
+<!-- ========== FREE ========== -->
+<div class="page" id="page-free">
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">🆓 Free AI Tools</h2><span id="freeCnt" style="font-size:.83rem;color:var(--muted);"></span></div>
+    <div class="tools-grid" id="freeGrid"></div>
+  </div>
+</div>
+
+<!-- ========== SUBMIT ========== -->
+<div class="page" id="page-submit">
+  <div class="submit-page">
+    <div id="sForm">
+      <h2>Submit an AI Tool</h2>
+      <p class="sub-p">Help the community discover great tools. Every submission reviewed within 48 hours.</p>
+      <div class="form-group"><label class="form-label">Tool Name *</label><input class="form-input" id="fn" placeholder="e.g. SuperAI"></div>
+      <div class="form-group"><label class="form-label">Website URL *</label><input class="form-input" id="fu" placeholder="https://yourtool.com" type="url"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Category *</label>
+          <select class="form-select" id="fc">
+            <option value="">Select…</option>
+            <option>Writing & SEO</option><option>Image Generation</option><option>Video</option>
+            <option>Coding</option><option>AI Assistants</option><option>Productivity</option>
+            <option>Audio & Music</option><option>Marketing</option><option>Research</option>
+            <option>Education</option><option>Business</option><option>AI Agents</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Pricing</label>
+          <select class="form-select" id="fp"><option>Free</option><option selected>Freemium</option><option>Paid</option></select>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Description *</label><textarea class="form-textarea" id="fd" placeholder="Describe what the tool does…"></textarea></div>
+      <div class="form-group"><label class="form-label">Your Email (optional)</label><input class="form-input" id="fe" placeholder="you@example.com" type="email"></div>
+      <button class="submit-btn" onclick="handleSubmit()">Submit Tool →</button>
+    </div>
+    <div class="s-success" id="sSuccess">
+      <div class="si">🎉</div>
+      <h3>Submission received!</h3>
+      <p>Thanks for contributing. We'll review your tool within 48 hours.</p>
+      <br><button class="btn-pr" style="margin-top:10px;" onclick="resetSubmit()">Submit Another</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== FAVORITES ========== -->
+<div class="page" id="page-favorites">
+  <div class="section">
+    <div class="section-header"><h2 class="section-title">♥ Saved Tools</h2></div>
+    <div class="tools-grid" id="favsGrid"></div>
+    <div class="fav-empty" id="favEmpty" style="display:none;">
+      <div class="ei">🔖</div><h3>No saved tools yet</h3><p>Tap ♡ on any tool card to save it here.</p>
+      <br><button class="btn-pr" style="margin-top:10px;" onclick="showPage('home')">Browse Tools</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="mOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="mContent"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-logo"><span style="color:var(--accent)">Discover</span>AI<span style="color:var(--accent2)">.</span></div>
+  <ul class="footer-links">
+    <li><a onclick="showPage('home')">Directory</a></li>
+    <li><a onclick="showPage('top10')">Top 10</a></li>
+    <li><a onclick="showPage('free')">Free Tools</a></li>
+    <li><a onclick="showPage('submit')">Submit Tool</a></li>
+    <li><a onclick="showPage('favorites')">Saved</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 DiscoverAI · Built for AI explorers</div>
+</footer>
+
+<script>
+// ===================== DATA =====================
+const TOOLS=[
+ {id:1,name:"Claude",by:"Anthropic",icon:"🤖",bg:"rgba(124,107,255,.15)",cat:"coding",tags:["Coding","Writing","Analysis"],price:"freemium",desc:"Advanced AI assistant for coding, writing, analysis, and reasoning with extended context and multimodal capabilities.",features:["200K token context window","Code generation & debugging","Document analysis","Multimodal inputs"],url:"https://claude.ai",rating:9.8,badge:"Featured",newest:false},
+ {id:2,name:"ChatGPT",by:"OpenAI",icon:"⚡",bg:"rgba(0,229,192,.1)",cat:"agents",tags:["Chat","Agents","Writing"],price:"freemium",desc:"Versatile conversational AI for writing, analysis, coding, math, and more. Powers millions of apps worldwide.",features:["GPT-4o multimodal","Custom GPTs","DALL·E image generation","Code interpreter"],url:"https://chat.openai.com",rating:9.6,badge:"Popular",newest:false},
+ {id:3,name:"Midjourney",by:"Midjourney Inc.",icon:"🎨",bg:"rgba(255,107,157,.12)",cat:"image",tags:["Images","Art","Design"],price:"paid",desc:"Generate stunning photorealistic and artistic images from text prompts. Industry-leading quality with v6.",features:["V6 consistent characters","Inpainting & outpainting","Vary region tool","Style tuning"],url:"https://midjourney.com",rating:9.4,badge:"Top Rated",newest:false},
+ {id:4,name:"GitHub Copilot",by:"GitHub / Microsoft",icon:"💻",bg:"rgba(0,229,192,.1)",cat:"coding",tags:["Coding","IDE","Autocomplete"],price:"freemium",desc:"AI-powered code completion integrated into your IDE. Supports 40+ languages with context-aware suggestions.",features:["Inline code suggestions","Chat in IDE","PR summaries","40+ languages"],url:"https://github.com/features/copilot",rating:9.2,badge:"",newest:false},
+ {id:5,name:"Runway Gen-4",by:"Runway",icon:"🎬",bg:"rgba(255,198,92,.1)",cat:"video",tags:["Video","Creative","Generation"],price:"freemium",desc:"Create cinematic AI-generated video from text or image prompts with real-time collaboration.",features:["Text-to-video generation","Video-to-video","Motion control","Collaboration"],url:"https://runwayml.com",rating:9.0,badge:"",newest:false},
+ {id:6,name:"ElevenLabs",by:"ElevenLabs",icon:"🎵",bg:"rgba(0,229,192,.08)",cat:"audio",tags:["Audio","TTS","Voice Clone"],price:"freemium",desc:"Ultra-realistic AI voice synthesis and cloning. Generate natural speech in 29 languages with emotional control.",features:["Instant voice cloning","29 languages","Emotional control","API access"],url:"https://elevenlabs.io",rating:9.1,badge:"",newest:false},
+ {id:7,name:"Notion AI",by:"Notion",icon:"🧠",bg:"rgba(255,107,157,.08)",cat:"productivity",tags:["Productivity","Notes","Docs"],price:"freemium",desc:"AI-powered notes, docs, and project management. Summarize, write, and automate your knowledge base.",features:["AI writing assistant","Auto-summarize","Action item extraction","Database automation"],url:"https://notion.so",rating:8.7,badge:"",newest:false},
+ {id:8,name:"Perplexity AI",by:"Perplexity",icon:"🔍",bg:"rgba(124,107,255,.12)",cat:"research",tags:["Research","Search","Citations"],price:"freemium",desc:"AI-powered search engine that gives direct answers with cited sources. Perfect for research.",features:["Real-time web search","Cited sources","Follow-up questions","Pro search mode"],url:"https://perplexity.ai",rating:8.9,badge:"",newest:false},
+ {id:9,name:"Jasper AI",by:"Jasper",icon:"✍️",bg:"rgba(124,107,255,.12)",cat:"writing",tags:["Writing","Marketing","SEO"],price:"paid",desc:"End-to-end AI content creation for marketing teams. Create blog posts, ads, and emails at scale.",features:["Brand voice consistency","SEO integration","50+ templates","Team collaboration"],url:"https://jasper.ai",rating:8.8,badge:"",newest:false},
+ {id:10,name:"DALL·E 3",by:"OpenAI",icon:"🌟",bg:"rgba(255,198,92,.08)",cat:"image",tags:["Images","OpenAI","Generation"],price:"freemium",desc:"State-of-the-art image generation with precise prompt following and natural language understanding.",features:["Natural language prompts","High resolution","Safety guardrails","ChatGPT integration"],url:"https://openai.com/dall-e-3",rating:8.6,badge:"",newest:false},
+ {id:11,name:"Grammarly AI",by:"Grammarly",icon:"📝",bg:"rgba(0,229,192,.08)",cat:"writing",tags:["Writing","Grammar","Tone"],price:"freemium",desc:"AI writing assistant that rewrites, improves tone, adjusts formality, and ensures clarity.",features:["Tone detection","Clarity suggestions","Plagiarism check","Browser extension"],url:"https://grammarly.com",rating:8.5,badge:"",newest:false},
+ {id:12,name:"Stable Diffusion",by:"Stability AI",icon:"🖼️",bg:"rgba(255,107,157,.1)",cat:"image",tags:["Images","Open Source","Local"],price:"free",desc:"Open-source image generation model. Run locally or in the cloud with full customization.",features:["Open source","Local deployment","LoRA fine-tuning","Unlimited generations"],url:"https://stability.ai",rating:8.4,badge:"Open Source",newest:false},
+ {id:13,name:"Cursor",by:"Anysphere",icon:"🖱️",bg:"rgba(124,107,255,.1)",cat:"coding",tags:["Coding","IDE","AI Editor"],price:"freemium",desc:"AI-first code editor built on VS Code. Chat with your codebase, generate code, and fix bugs instantly.",features:["Codebase chat","Multi-file edits","Auto-debug","VS Code compatible"],url:"https://cursor.sh",rating:9.3,badge:"Hot",newest:true},
+ {id:14,name:"Suno AI",by:"Suno",icon:"🎶",bg:"rgba(255,198,92,.1)",cat:"audio",tags:["Music","Generation","Audio"],price:"freemium",desc:"Generate full songs with vocals, instruments, and lyrics from a simple text prompt in seconds.",features:["Full song generation","Custom lyrics","Multiple genres","High-quality audio"],url:"https://suno.ai",rating:8.8,badge:"Trending",newest:true},
+ {id:15,name:"Pika Labs",by:"Pika",icon:"📹",bg:"rgba(255,107,157,.1)",cat:"video",tags:["Video","Animation","AI"],price:"freemium",desc:"Create and edit videos with AI. Turn images into videos, animate characters, and add effects.",features:["Image to video","Character animation","Video editing","Sound effects"],url:"https://pika.art",rating:8.5,badge:"",newest:true},
+ {id:16,name:"Copy.ai",by:"Copy.ai",icon:"📋",bg:"rgba(0,229,192,.08)",cat:"writing",tags:["Writing","Copywriting","Marketing"],price:"freemium",desc:"AI copywriting tool for marketing teams. Generate ads, emails, social posts, and product descriptions.",features:["90+ templates","Brand voice","Workflows","Team collaboration"],url:"https://copy.ai",rating:8.3,badge:"",newest:false},
+ {id:17,name:"AutoGPT",by:"Significant Gravitas",icon:"🤖",bg:"rgba(255,198,92,.1)",cat:"agents",tags:["Agents","Automation","Open Source"],price:"free",desc:"Open-source AI agent that autonomously executes tasks. Plans, searches, codes, and self-improves.",features:["Autonomous task execution","Web browsing","Code execution","Memory system"],url:"https://agpt.co",rating:8.2,badge:"Open Source",newest:false},
+ {id:18,name:"Speechify",by:"Speechify",icon:"🔊",bg:"rgba(124,107,255,.1)",cat:"audio",tags:["TTS","Reading","Productivity"],price:"freemium",desc:"Text-to-speech app that reads documents, web pages, and books aloud at your preferred speed.",features:["500+ WPM reading","60+ voices","Chrome extension","Mobile app"],url:"https://speechify.com",rating:8.1,badge:"",newest:false},
+ {id:19,name:"Writesonic",by:"Writesonic",icon:"✒️",bg:"rgba(0,229,192,.1)",cat:"writing",tags:["Writing","SEO","Blog"],price:"freemium",desc:"AI writer for SEO-optimized articles, landing pages, and ads. Integrated with Surfer SEO.",features:["SEO optimization","Factual content","Brand voice","Bulk generation"],url:"https://writesonic.com",rating:8.0,badge:"",newest:false},
+ {id:20,name:"Descript",by:"Descript",icon:"🎙️",bg:"rgba(255,107,157,.08)",cat:"video",tags:["Video","Podcast","Editing"],price:"freemium",desc:"Edit video and audio like a document. Remove filler words, overdub mistakes, and create clips easily.",features:["Text-based editing","AI overdub","Screen recording","Automatic transcription"],url:"https://descript.com",rating:8.6,badge:"",newest:false},
+ {id:21,name:"Synthesia",by:"Synthesia",icon:"🎭",bg:"rgba(124,107,255,.12)",cat:"video",tags:["Video","Avatars","Presentations"],price:"paid",desc:"Create professional AI videos with realistic avatars from text. No camera or studio needed.",features:["160+ AI avatars","120+ languages","Custom avatars","SCORM export"],url:"https://synthesia.io",rating:8.7,badge:"",newest:false},
+ {id:22,name:"Otter.ai",by:"Otter.ai",icon:"📻",bg:"rgba(0,229,192,.08)",cat:"productivity",tags:["Transcription","Meetings","Notes"],price:"freemium",desc:"AI meeting assistant that records, transcribes, and summarizes meetings automatically.",features:["Real-time transcription","Speaker identification","Action items","Zoom/Teams integration"],url:"https://otter.ai",rating:8.4,badge:"",newest:false},
+ {id:23,name:"Hugging Face",by:"Hugging Face",icon:"🤗",bg:"rgba(255,198,92,.1)",cat:"research",tags:["Models","Open Source","Research"],price:"free",desc:"The AI model hub. Access thousands of open-source models, datasets, and demo spaces.",features:["100k+ models","Datasets hub","Spaces for demos","Inference API"],url:"https://huggingface.co",rating:9.0,badge:"Open Source",newest:false},
+ {id:24,name:"Make.com",by:"Make",icon:"⚙️",bg:"rgba(124,107,255,.1)",cat:"agents",tags:["Automation","No-Code","Workflows"],price:"freemium",desc:"Visual workflow automation. Connect 1,500+ apps and automate complex processes without code.",features:["1,500+ integrations","Visual workflow builder","Error handling","Real-time execution"],url:"https://make.com",rating:8.8,badge:"",newest:false},
+ {id:25,name:"Luma AI",by:"Luma AI",icon:"🌐",bg:"rgba(0,229,192,.1)",cat:"image",tags:["3D","NeRF","Generation"],price:"freemium",desc:"Capture and generate photorealistic 3D scenes with AI. Create NeRF models from video.",features:["3D scene capture","NeRF generation","Video-to-3D","API access"],url:"https://lumalabs.ai",rating:8.5,badge:"",newest:true},
+ {id:26,name:"Gemini",by:"Google",icon:"♊",bg:"rgba(255,107,157,.1)",cat:"agents",tags:["Chat","Multimodal","Google"],price:"freemium",desc:"Google's most capable AI with deep integration across Google Workspace and real-time web access.",features:["1M token context","Google integration","Real-time search","Multimodal"],url:"https://gemini.google.com",rating:8.9,badge:"",newest:false},
+ {id:27,name:"Replit AI",by:"Replit",icon:"🔁",bg:"rgba(255,198,92,.1)",cat:"coding",tags:["Coding","Cloud IDE","Deployment"],price:"freemium",desc:"AI-powered cloud IDE. Code, collaborate, and deploy apps instantly with built-in AI assistance.",features:["Cloud IDE","AI completion","One-click deploy","Multiplayer coding"],url:"https://replit.com",rating:8.6,badge:"",newest:false},
+ {id:28,name:"Beautiful.ai",by:"Beautiful.ai",icon:"🖌️",bg:"rgba(124,107,255,.1)",cat:"productivity",tags:["Presentations","Design","Slides"],price:"freemium",desc:"AI-powered presentation software that auto-formats slides and suggests design improvements.",features:["Smart layouts","60+ templates","Brand kit","Team collaboration"],url:"https://beautiful.ai",rating:8.2,badge:"",newest:false},
+ {id:29,name:"Phind",by:"Phind",icon:"🔎",bg:"rgba(0,229,192,.1)",cat:"coding",tags:["Coding","Search","Answers"],price:"free",desc:"AI-powered search engine built for developers. Get direct answers to coding questions with examples.",features:["Code-focused search","GPT-4 powered","Pair programmer","VS Code extension"],url:"https://phind.com",rating:8.7,badge:"Free",newest:false},
+ {id:30,name:"Wordtune",by:"AI21 Labs",icon:"🔤",bg:"rgba(255,107,157,.1)",cat:"writing",tags:["Writing","Rewrite","Editor"],price:"freemium",desc:"AI writing companion that rewrites sentences, expands text, and adjusts tone with one click.",features:["Sentence rewriting","Tone adjustment","Spices feature","Chrome extension"],url:"https://wordtune.com",rating:8.0,badge:"",newest:false},
+ {id:31,name:"Whisper",by:"OpenAI",icon:"🎤",bg:"rgba(124,107,255,.1)",cat:"audio",tags:["Transcription","Open Source","Speech"],price:"free",desc:"Open-source speech recognition system with near-human accuracy across 99 languages.",features:["99 language support","Near-human accuracy","Open source","API available"],url:"https://openai.com/research/whisper",rating:9.0,badge:"Open Source",newest:false},
+ {id:32,name:"v0.dev",by:"Vercel",icon:"🔲",bg:"rgba(0,229,192,.1)",cat:"coding",tags:["UI","React","Design"],price:"freemium",desc:"Generate React and Tailwind UI components from text descriptions. Instantly preview and deploy.",features:["React component generation","Tailwind CSS","Live preview","One-click deploy"],url:"https://v0.dev",rating:9.1,badge:"Hot",newest:true},
+];
+
+const CATS=[
+ {id:"all",name:"All Tools",icon:"🌐"},{id:"writing",name:"Writing & SEO",icon:"✍️"},
+ {id:"image",name:"Image Gen",icon:"🎨"},{id:"video",name:"Video",icon:"🎬"},
+ {id:"coding",name:"Coding",icon:"💻"},{id:"agents",name:"AI Agents",icon:"🤖"},
+ {id:"productivity",name:"Productivity",icon:"📊"},{id:"audio",name:"Audio & Music",icon:"🎵"},
+ {id:"research",name:"Research",icon:"🔍"},
+];
+
+const TICKERS=[
+ "🔥 <strong>New:</strong> Google releases Veo 3 video generation model",
+ "🚀 <strong>Trending:</strong> Claude 4 Opus tops coding benchmarks",
+ "⚡ <strong>Hot:</strong> OpenAI launches o3-mini with extended reasoning",
+ "🎨 <strong>New:</strong> Midjourney v7 now available",
+ "🤖 <strong>Update:</strong> Meta releases Llama 4 with 128K context",
+ "✨ <strong>Featured:</strong> Runway Gen-4 adds real-time collaboration",
+ "💻 <strong>Hot:</strong> Cursor surpasses 1M developers",
+ "🎵 <strong>Trending:</strong> Suno AI v4 generates broadcast-quality music",
+ "🌐 <strong>New:</strong> Luma AI launches Dream Machine 2.0",
+ "📊 <strong>New:</strong> Perplexity Pro adds financial data analysis",
+];
+
+// ===================== STATE =====================
+let S={filter:'all',price:null,sort:'featured',q:'',page:1,perPage:9,favs:[]};
+try{S.favs=JSON.parse(localStorage.getItem('dai_f')||'[]');}catch(e){}
+
+// ===================== INIT =====================
+document.addEventListener('DOMContentLoaded',()=>{
+  buildTicker(); buildCats(); renderTools(); renderTop10(); renderFree(); updateFavBadge();
+  // scroll reveal
+  const style=document.createElement('style');
+  style.textContent='.tool-card,.cat-card,.top-item{opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease,border-color .25s,box-shadow .25s,background .2s;}.tool-card.vis,.cat-card.vis,.top-item.vis{opacity:1;transform:translateY(0);}';
+  document.head.appendChild(style);
+  const io=new IntersectionObserver(ents=>{ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}});},{threshold:.08});
+  setTimeout(()=>{document.querySelectorAll('.tool-card,.cat-card,.top-item').forEach((el,i)=>{el.style.transitionDelay=`${i*.035}s`;io.observe(el);});},60);
+});
+
+// ===================== TICKER =====================
+function buildTicker(){
+  const items=[...TICKERS,...TICKERS].map(t=>`<span class="ticker-item">${t} &nbsp;·</span>`).join('');
+  document.getElementById('tickerTrack').innerHTML=items;
+}
+
+// ===================== CATEGORIES =====================
+function buildCats(){
+  const counts={};TOOLS.forEach(t=>{counts[t.cat]=(counts[t.cat]||0)+1;});
+  document.getElementById('catsGrid').innerHTML=CATS.map(c=>{
+    const cnt=c.id==='all'?TOOLS.length:(counts[c.id]||0);
+    return `<div class="cat-card ${S.filter===c.id?'active-cat':''}" onclick="clickCat('${c.id}')">
+      <span class="cat-icon">${c.icon}</span><div class="cat-name">${c.name}</div><div class="cat-count">${cnt} tool${cnt!==1?'s':''}</div>
+    </div>`;
+  }).join('');
+  setTimeout(()=>{
+    const io=new IntersectionObserver(ents=>{ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}});},{threshold:.08});
+    document.querySelectorAll('.cat-card').forEach((el,i)=>{el.style.transitionDelay=`${i*.04}s`;io.observe(el);});
+  },40);
+}
+
+function clickCat(id){
+  S.filter=id; S.page=1;
+  document.querySelectorAll('.filter-tab').forEach(b=>b.classList.remove('active'));
+  const match=[...document.querySelectorAll('.filter-tab')].find(b=>{
+    const oc=b.getAttribute('onclick')||'';
+    return id==='all'?oc.includes("'all'"):oc.includes(`'${id}'`);
+  });
+  if(match) match.classList.add('active');
+  else document.querySelector('.filter-tab').classList.add('active');
+  buildCats(); renderTools();
+  document.getElementById('toolsGrid').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ===================== FILTERS =====================
+function setFilter(btn,cat){
+  document.querySelectorAll('.filter-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); S.filter=cat; S.page=1; buildCats(); renderTools();
+}
+
+function togglePrice(p){
+  S.price=S.price===p?null:p;
+  ['free','freemium','paid'].forEach(k=>{
+    const btn=document.getElementById('pt-'+k);
+    if(!btn) return;
+    btn.className='price-toggle';
+    if(S.price===k) btn.classList.add(k==='free'?'af':k==='freemium'?'afm':'ap');
+  });
+  S.page=1; renderTools();
+}
+
+function setSort(v){S.sort=v;S.page=1;renderTools();}
+
+// ===================== SEARCH =====================
+function onSearch(val){
+  S.q=val.trim().toLowerCase();
+  document.getElementById('sClear').classList.toggle('vis',val.length>0);
+  showSugg(val);
+}
+function showSugg(val){
+  const box=document.getElementById('suggBox');
+  if(!val||val.length<2){box.classList.remove('show');return;}
+  const m=TOOLS.filter(t=>t.name.toLowerCase().includes(val.toLowerCase())||t.tags.some(g=>g.toLowerCase().includes(val.toLowerCase()))).slice(0,5);
+  if(!m.length){box.classList.remove('show');return;}
+  box.innerHTML=m.map(t=>`<div class="sugg-item" onclick="pickSugg('${t.name.replace(/'/g,"\\'")}')"><span>${t.icon}</span>${t.name}<span style="color:var(--muted);font-size:.72rem;margin-left:auto;">${cap(t.cat)}</span></div>`).join('');
+  box.classList.add('show');
+}
+function pickSugg(name){
+  document.getElementById('heroSearch').value=name;
+  S.q=name.toLowerCase(); S.page=1;
+  document.getElementById('suggBox').classList.remove('show');
+  document.getElementById('sClear').classList.add('vis');
+  renderTools();
+}
+function doSearch(){document.getElementById('suggBox').classList.remove('show');S.page=1;renderTools();}
+function clearSearch(){
+  document.getElementById('heroSearch').value=''; S.q=''; S.page=1;
+  document.getElementById('sClear').classList.remove('vis');
+  document.getElementById('suggBox').classList.remove('show');
+  renderTools();
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))document.getElementById('suggBox').classList.remove('show');});
+function resetAll(){
+  S.filter='all';S.price=null;S.q='';S.page=1;S.sort='featured';
+  document.getElementById('heroSearch').value='';
+  document.getElementById('sClear').classList.remove('vis');
+  document.querySelectorAll('.filter-tab').forEach((b,i)=>{b.classList.toggle('active',i===0);});
+  ['free','freemium','paid'].forEach(k=>{const b=document.getElementById('pt-'+k);if(b)b.className='price-toggle';});
+  document.querySelector('.sort-select').value='featured';
+  buildCats(); renderTools();
+}
+
+// ===================== RENDER =====================
+function getFiltered(){
+  let list=[...TOOLS];
+  if(S.filter&&S.filter!=='all') list=list.filter(t=>t.cat===S.filter);
+  if(S.price) list=list.filter(t=>t.price===S.price);
+  if(S.q) list=list.filter(t=>t.name.toLowerCase().includes(S.q)||t.desc.toLowerCase().includes(S.q)||t.tags.some(g=>g.toLowerCase().includes(S.q))||t.by.toLowerCase().includes(S.q));
+  if(S.sort==='rating') list.sort((a,b)=>b.rating-a.rating);
+  else if(S.sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+  else if(S.sort==='newest') list=[...list.filter(t=>t.newest),...list.filter(t=>!t.newest)];
+  return list;
+}
+
+function renderTools(){
+  const filtered=getFiltered();
+  const total=filtered.length;
+  const pages=Math.ceil(total/S.perPage)||1;
+  S.page=Math.min(S.page,pages);
+  const slice=filtered.slice((S.page-1)*S.perPage,S.page*S.perPage);
+  const grid=document.getElementById('toolsGrid');
+  const noR=document.getElementById('noRes');
+  document.getElementById('resCount').textContent=`${total} tool${total!==1?'s':''}`;
+  if(!slice.length){grid.innerHTML='';noR.style.display='block';}
+  else{noR.style.display='none';grid.innerHTML=slice.map(t=>tCard(t)).join('');attachReveal('#toolsGrid');}
+  renderPg(pages);
+  // update stats
+  document.getElementById('heroCount').textContent=TOOLS.length+'+';
+  document.getElementById('statTotal').textContent=TOOLS.length;
+  document.getElementById('statFree').textContent=TOOLS.filter(t=>t.price==='free').length;
+}
+
+function tCard(t){
+  const fav=S.favs.includes(t.id);
+  return `<div class="tool-card" onclick="openModal(${t.id})">
+    <button class="fav-btn ${fav?'on':''}" onclick="event.stopPropagation();toggleFav(${t.id})" title="${fav?'Remove':'Save'}">
+      ${fav?'♥':'♡'}
+    </button>
+    <div class="tool-header">
+      <div class="tool-logo" style="background:${t.bg}">${t.icon}</div>
+      <div><div class="tool-name">${t.name}</div><div class="tool-by">by ${t.by}</div></div>
+    </div>
+    <div class="tool-desc">${t.desc}</div>
+    <div class="tool-footer">
+      <div class="tags">${t.tags.slice(0,2).map(g=>`<span class="tag ${tc(g)}">${g}</span>`).join('')}</div>
+      <div style="display:flex;align-items:center;gap:7px;">
+        <span class="tool-rating">★ ${t.rating}</span>
+        <span class="badge ${t.price}">${cap(t.price)}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function tc(tag){
+  const t=tag.toLowerCase();
+  if(['coding','code','ide','react','ui','tts'].some(k=>t.includes(k))) return 't-te';
+  if(['images','image','art','3d','design'].some(k=>t.includes(k))) return 't-pi';
+  if(['video','animation'].some(k=>t.includes(k))) return 't-ye';
+  if(['open source','free'].some(k=>t.includes(k))) return 't-gr';
+  return 't-pu';
+}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+
+function attachReveal(sel){
+  const io=new IntersectionObserver(ents=>{ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}});},{threshold:.08});
+  setTimeout(()=>{document.querySelectorAll(sel+' .tool-card').forEach((el,i)=>{el.style.transitionDelay=`${i*.04}s`;io.observe(el);});},30);
+}
+
+// ===================== PAGINATION =====================
+function renderPg(pages){
+  const bar=document.getElementById('pgBar');
+  if(pages<=1){bar.innerHTML='';return;}
+  let h=`<button class="pg-btn" onclick="goPage(${S.page-1})" ${S.page===1?'disabled':''}>‹</button>`;
+  for(let i=1;i<=pages;i++){
+    if(pages>7&&i>2&&i<pages-1&&Math.abs(i-S.page)>1){if(i===3||i===pages-2)h+=`<span class="pg-dots">…</span>`;continue;}
+    h+=`<button class="pg-btn ${i===S.page?'cur':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  h+=`<button class="pg-btn" onclick="goPage(${S.page+1})" ${S.page===pages?'disabled':''}>›</button>`;
+  bar.innerHTML=h;
+}
+function goPage(n){S.page=n;renderTools();document.getElementById('toolsGrid').scrollIntoView({behavior:'smooth',block:'start'});}
+
+// ===================== TOP 10 =====================
+function renderTop10(){
+  const top=[...TOOLS].sort((a,b)=>b.rating-a.rating).slice(0,10);
+  const rc=i=>i===0?'g':i===1?'s':i===2?'b':'';
+  document.getElementById('top10Grid').innerHTML=top.map((t,i)=>`
+    <div class="top-item" onclick="openModal(${t.id})">
+      <span class="rank ${rc(i)}">${i+1}</span>
+      <div class="top-logo" style="background:${t.bg}">${t.icon}</div>
+      <div class="top-info"><div class="top-name">${t.name}</div><div class="top-cat">${cap(t.cat)}</div></div>
+      <span class="top-score">★ ${t.rating}</span>
+    </div>`).join('');
+  const rising=TOOLS.filter(t=>t.newest).slice(0,6);
+  document.getElementById('risingGrid').innerHTML=rising.map(t=>tCard(t)).join('');
+  attachReveal('#risingGrid');
+  setTimeout(()=>{
+    const io=new IntersectionObserver(ents=>{ents.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}});},{threshold:.08});
+    document.querySelectorAll('#top10Grid .top-item').forEach((el,i)=>{el.style.transitionDelay=`${i*.04}s`;io.observe(el);});
+  },40);
+}
+
+// ===================== FREE =====================
+function renderFree(){
+  const free=TOOLS.filter(t=>t.price==='free');
+  document.getElementById('freeCnt').textContent=`${free.length} free tools`;
+  document.getElementById('freeGrid').innerHTML=free.map(t=>tCard(t)).join('');
+  attachReveal('#freeGrid');
+}
+
+// ===================== FAVORITES =====================
+function toggleFav(id){
+  const idx=S.favs.indexOf(id);
+  if(idx===-1){S.favs.push(id);toast('♥ Saved!');}else{S.favs.splice(idx,1);toast('Removed from saved');}
+  try{localStorage.setItem('dai_f',JSON.stringify(S.favs));}catch(e){}
+  updateFavBadge();
+  // refresh all grids that show fav state
+  if(document.getElementById('page-favorites').classList.contains('active')) renderFavs();
+  else { renderTools(); renderFree(); }
+}
+function updateFavBadge(){document.getElementById('favBadge').textContent=S.favs.length;}
+function renderFavs(){
+  const list=TOOLS.filter(t=>S.favs.includes(t.id));
+  document.getElementById('favsGrid').innerHTML=list.map(t=>tCard(t)).join('');
+  document.getElementById('favEmpty').style.display=list.length?'none':'block';
+  if(list.length) attachReveal('#favsGrid');
+}
+
+// ===================== MODAL =====================
+function openModal(id){
+  const t=TOOLS.find(x=>x.id===id);if(!t)return;
+  const fav=S.favs.includes(t.id);
+  document.getElementById('mContent').innerHTML=`
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-header">
+      <div class="modal-logo" style="background:${t.bg}">${t.icon}</div>
+      <div><div class="modal-title">${t.name}</div><div class="modal-by">by ${t.by}</div>
+        <div class="modal-badges">
+          <span class="badge ${t.price}">${cap(t.price)}</span>
+          ${t.badge?`<span class="tag t-pu">${t.badge}</span>`:''}
+          <span class="tool-rating">★ ${t.rating}</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-meta">
+      <div class="meta-box"><div class="meta-lbl">Category</div><div class="meta-val">${cap(t.cat)}</div></div>
+      <div class="meta-box"><div class="meta-lbl">Pricing</div><div class="meta-val">${cap(t.price)}</div></div>
+    </div>
+    <div class="modal-desc">${t.desc}</div>
+    <div class="modal-tags-row">${t.tags.map(g=>`<span class="tag ${tc(g)}">${g}</span>`).join('')}</div>
+    <div class="modal-label">Key Features</div>
+    <ul class="modal-features">${t.features.map(f=>`<li>${f}</li>`).join('')}</ul>
+    <div class="modal-actions">
+      <a class="btn-visit" href="${t.url}" target="_blank" rel="noopener">Visit ${t.name} ↗</a>
+      <button class="btn-fav-m ${fav?'on':''}" id="mFavBtn" onclick="toggleFav(${t.id});this.classList.toggle('on');this.textContent=S.favs.includes(${t.id})?'♥ Saved':'♡ Save';">
+        ${fav?'♥ Saved':'♡ Save'}
+      </button>
+    </div>`;
+  document.getElementById('mOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('mOverlay').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// ===================== SUBMIT =====================
+function handleSubmit(){
+  const name=document.getElementById('fn').value.trim();
+  const url=document.getElementById('fu').value.trim();
+  const cat=document.getElementById('fc').value;
+  const desc=document.getElementById('fd').value.trim();
+  if(!name||!url||!cat||!desc){toast('⚠ Fill all required fields');return;}
+  if(!url.startsWith('http')){toast('⚠ Enter a valid URL');return;}
+  document.getElementById('sForm').style.display='none';
+  document.getElementById('sSuccess').style.display='block';
+}
+function resetSubmit(){
+  ['fn','fu','fe'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fd').value='';
+  document.getElementById('fc').selectedIndex=0;
+  document.getElementById('fp').selectedIndex=1;
+  document.getElementById('sForm').style.display='block';
+  document.getElementById('sSuccess').style.display='none';
+}
+
+// ===================== PAGE NAV =====================
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.querySelectorAll('nav ul a[data-page]').forEach(a=>a.classList.toggle('active',a.dataset.page===p));
+  if(p==='favorites') renderFavs();
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('navLinks').classList.remove('open');
+}
+
+// ===================== MOBILE MENU =====================
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open');}
+
+// ===================== TOAST =====================
+let _tt;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2400);
+}
+</script>
+</body>
+</html>
